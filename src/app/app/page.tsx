@@ -3,8 +3,10 @@
 import { useEffect, useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Search, TrendingUp, Calendar, DollarSign, Hash } from 'lucide-react';
+import { Search, TrendingUp, Calendar, DollarSign, Hash, AlertTriangle } from 'lucide-react';
 import ModeTabs from '@/components/ModeTabs';
+import ScrapeLoadingOverlay from '@/components/ScrapeLoadingOverlay';
+import UpgradeModal from '@/components/UpgradeModal';
 
 interface RecentAccount {
   username: string;
@@ -16,6 +18,10 @@ export default function HomePage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [recent, setRecent] = useState<RecentAccount[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [limitReason, setLimitReason] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/accounts')
@@ -24,21 +30,53 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
-  // Navigate immediately — no pre-fetch, no blocking popup. The destination
-  // page does the real fetch itself and shows its own loading skeleton
-  // (app/loading.tsx) while it works, and already handles a not-found
-  // username or a plan-limit hit with its own dedicated screens (see
-  // dashboard/[username]/layout.tsx), so there's nothing worth blocking on
-  // here first.
+  // Fetches the profile BEFORE navigating (instead of pushing the route
+  // immediately and letting the destination scrape on arrival) so this page
+  // can show the real "X of Y videos" progress reliably via the same
+  // overlay+polling pattern Niche Stats already uses, and so a transient
+  // scrape hiccup or a genuine not-found shows right here — inline, with a
+  // retry — instead of as the dashboard's dead-end "Account not found"
+  // page. By the time we navigate, the profile is already cached, so the
+  // destination layout just reads it back (fast, no second scrape).
+  async function goToProfile(clean: string) {
+    setLoading(true);
+    setSearching(clean);
+    setError(null);
+    try {
+      const res = await fetch(`/api/profile/${encodeURIComponent(clean)}`);
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        if (res.status === 402) {
+          setLimitReason(body.error || "You've reached your plan's limit.");
+          return;
+        }
+        throw new Error(body.error || 'Could not fetch that TikTok account.');
+      }
+      router.push(`/dashboard/${clean}/overview`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const clean = username.trim().replace(/^@/, '').toLowerCase();
     if (!clean) return;
-    router.push(`/dashboard/${clean}/overview`);
+    goToProfile(clean);
   }
 
   return (
     <div className="flex flex-col items-center pt-10 sm:pt-20">
+      <UpgradeModal open={limitReason !== null} reason={limitReason ?? ''} onClose={() => setLimitReason(null)} />
+      <ScrapeLoadingOverlay
+        active={loading}
+        subject={searching}
+        mode="profile"
+        progressUrl={searching ? `/api/profile/${encodeURIComponent(searching)}/progress` : ''}
+      />
+
       <ModeTabs />
 
       <h1 className="mt-6 max-w-2xl text-center text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -66,13 +104,20 @@ export default function HomePage() {
         </div>
         <button
           type="submit"
-          disabled={!username.trim()}
+          disabled={!username.trim() || loading}
           className="flex items-center gap-2 rounded-xl bg-neutral-900 px-5 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50 dark:bg-white dark:text-neutral-900"
         >
           <Search size={18} />
           Analyze
         </button>
       </form>
+
+      {error && (
+        <div className="mt-4 flex w-full max-w-md items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-300">
+          <AlertTriangle size={15} className="mt-0.5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
 
       <div className="mt-6 grid w-full max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
         {[
@@ -97,8 +142,9 @@ export default function HomePage() {
             {recent.map((acc) => (
               <button
                 key={acc.username}
-                onClick={() => router.push(`/dashboard/${acc.username}/overview`)}
-                className="card flex items-center gap-3 px-3 py-2.5 text-left transition hover:border-brand-600"
+                onClick={() => goToProfile(acc.username)}
+                disabled={loading}
+                className="card flex items-center gap-3 px-3 py-2.5 text-left transition hover:border-brand-600 disabled:opacity-50"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={acc.avatarUrl} alt="" className="h-9 w-9 rounded-full object-cover" />

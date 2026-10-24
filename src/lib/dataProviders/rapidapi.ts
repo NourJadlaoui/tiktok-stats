@@ -46,7 +46,19 @@ export const rapidApiProvider: DataProvider = {
     setProgress(username, { status: 'starting', fetched: 0, total: 0 });
 
     try {
-      const userInfo = await rapidApiFetch(`/user/info?unique_id=${encodeURIComponent(username)}`);
+      // A missing `data.user` here doesn't reliably mean the account
+      // doesn't exist — RapidAPI's backend occasionally returns a 200 with
+      // an empty/malformed body on a transient hiccup (cold start, rate
+      // limiting, a dropped upstream request), which looked identical to a
+      // real not-found and was the cause of "shows not found, but reloading
+      // fixes it": a reload was really just a second attempt. Retrying once
+      // here does that same second attempt automatically, before concluding
+      // the account genuinely doesn't exist.
+      let userInfo = await rapidApiFetch(`/user/info?unique_id=${encodeURIComponent(username)}`);
+      if (!userInfo?.data?.user) {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        userInfo = await rapidApiFetch(`/user/info?unique_id=${encodeURIComponent(username)}`);
+      }
       const userData = userInfo?.data?.user;
       const stats = userInfo?.data?.stats;
       if (!userData) {
