@@ -1,0 +1,27 @@
+node_modules
+.next
+out
+build
+dist
+*.log
+npm-debug.log*
+
+# env / secrets
+.env
+.env.local
+.env.*.local
+config/credentials.json
+
+# local cache database
+data/
+*.sqlite
+*.sqlite3
+*.db
+
+# editor / OS
+.DS_Store
+.vscode
+.idea
+
+# build info
+*.tsbuildinfo
