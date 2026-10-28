@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import clsx from 'clsx';
 import {
   TrendingUp,
   Calendar,
@@ -9,7 +10,6 @@ import {
   Compass,
   ListPlus,
   ArrowRight,
-  Sparkles,
   ShieldCheck,
   Zap,
   Bookmark,
@@ -32,51 +32,63 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' }
 };
 
-const FEATURES = [
+type FeatureSize = 'lg' | 'wide' | 'sm';
+
+const FEATURES: { icon: typeof TrendingUp; title: string; desc: string; size: FeatureSize; stat?: string }[] = [
   {
     icon: TrendingUp,
     title: 'Growth analytics',
-    desc: 'A 0-100 Creator Score with a full breakdown, plus follower, view and engagement trends over time.'
-  },
-  {
-    icon: Calendar,
-    title: 'Content calendar',
-    desc: 'Every video mapped by month in a heatmap — spot posting streaks, gaps, and cadence at a glance.'
-  },
-  {
-    icon: DollarSign,
-    title: 'Revenue estimator',
-    desc: 'RPM-based earnings estimates by niche, editable per creator or even per video for one-off deals.'
-  },
-  {
-    icon: Hash,
-    title: 'SEO insights',
-    desc: 'Top hashtags and title keywords that actually drive views, plus the best day and hour to post.'
-  },
-  {
-    icon: Search,
-    title: 'Niche Stats',
-    desc: 'Type any topic or hashtag and instantly see the top creators posting about it, ranked and scored.'
+    desc: 'A 0-100 Creator Score with a full breakdown, plus follower, view and engagement trends over time — the methodology is shown on every score, never a black box.',
+    size: 'lg',
+    stat: '0-100'
   },
   {
     icon: Compass,
     title: 'Niche Finder',
-    desc: 'Auto-scan dozens of niches across up to 3 languages at once to spot where demand is high and competition is low.'
+    desc: 'Auto-scan dozens of niches across up to 3 languages at once to spot where demand is high and competition is low.',
+    size: 'wide'
+  },
+  {
+    icon: Calendar,
+    title: 'Content calendar',
+    desc: 'Every video mapped by month in a heatmap — spot posting streaks, gaps, and cadence at a glance.',
+    size: 'sm'
+  },
+  {
+    icon: DollarSign,
+    title: 'Revenue estimator',
+    desc: 'RPM-based earnings estimates by niche, editable per creator or even per video for one-off deals.',
+    size: 'sm'
+  },
+  {
+    icon: Hash,
+    title: 'SEO insights',
+    desc: 'Top hashtags and title keywords that actually drive views, plus the best day and hour to post.',
+    size: 'sm'
+  },
+  {
+    icon: Search,
+    title: 'Niche Stats',
+    desc: 'Type any topic or hashtag and instantly see the top creators posting about it, ranked and scored.',
+    size: 'sm'
   },
   {
     icon: ListPlus,
     title: 'Bulk Search',
-    desc: 'Paste hundreds of usernames and scan them all in one background job — walk away, come back to results.'
+    desc: 'Paste hundreds of usernames and scan them all in one background job — walk away, come back to results.',
+    size: 'sm'
   },
   {
     icon: Bookmark,
     title: 'Tracking & history',
-    desc: 'Save any creator, tag them by category, and watch their growth history chart itself over every sync.'
+    desc: 'Save any creator, tag them by category, and watch their growth history chart itself over every sync.',
+    size: 'sm'
   },
   {
     icon: Users,
     title: 'Similar creators',
-    desc: 'From any profile, one click surfaces other real accounts posting about the same topic — instant competitor research.'
+    desc: 'From any profile, one click surfaces other real accounts posting about the same topic — instant competitor research.',
+    size: 'sm'
   }
 ];
 
@@ -102,33 +114,47 @@ const REASONS = [
 ];
 
 export default async function LandingPage() {
-  const plans = await listActivePlans();
+  // A Supabase hiccup must not take the entire public landing page down
+  // with it — degrade to an empty pricing section (LandingPricing already
+  // handles zero plans) instead of a 500 for every visitor, the same
+  // reasoning as the sitemap.ts fix.
+  let plans: Awaited<ReturnType<typeof listActivePlans>> = [];
+  try {
+    plans = await listActivePlans();
+  } catch (err) {
+    console.error('[landing page] could not load plans — rendering without pricing', err);
+  }
 
   return (
     <div className="relative left-1/2 right-1/2 -mx-[50vw] -mt-6 w-screen flex flex-col overflow-x-hidden">
       <PublicHeader />
 
-      {/* Hero — bold dark aurora background */}
+      {/* Hero — a single structured glow + fine grid line, not a cluster of
+          generic blurred blobs, so the brand gradient reads as deliberate
+          rather than decorative filler. */}
       <section className="relative overflow-hidden bg-neutral-950 px-4 pb-0 pt-14 text-white sm:px-6 sm:pt-20 lg:px-8">
-        <div className="bg-dot-grid pointer-events-none absolute inset-0 -z-10 opacity-40" />
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          <div className="animate-blob absolute -left-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-tiktok-cyan/40 blur-3xl" />
-          <div className="animate-blob animation-delay-2000 absolute -right-32 top-0 h-[28rem] w-[28rem] rounded-full bg-tiktok-pink/40 blur-3xl" />
-          <div className="animate-blob animation-delay-4000 absolute bottom-0 left-1/3 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl" />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundSize: '64px 64px'
+          }}
+        />
+        <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[36rem] w-[64rem] -translate-x-1/2 -translate-y-1/3 rounded-full bg-gradient-to-br from-tiktok-cyan/30 via-tiktok-pink/20 to-transparent blur-[100px]" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-neutral-950 to-transparent" />
 
         <div className="mx-auto flex max-w-3xl flex-col items-center pb-16 text-center sm:pb-24">
-          <span className="animate-fade-in-up inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-neutral-200 backdrop-blur">
-            <Sparkles size={13} className="animate-spin-slow text-tiktok-pink" />
-            Free trial — no credit card required
+          <span className="animate-fade-in-up inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-tiktok-pink" />
+            Free trial, no credit card
           </span>
 
-          <h1 className="animate-fade-in-up mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl" style={{ animationDelay: '0.05s' }}>
+          <h1 className="animate-fade-in-up mt-5 text-[2.75rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl xl:text-[5.5rem]" style={{ animationDelay: '0.05s' }}>
             Know exactly why a <span className="gradient-text">TikTok</span> creator is winning
           </h1>
 
-          <p className="animate-fade-in-up mt-6 max-w-xl text-base text-neutral-300 sm:text-lg" style={{ animationDelay: '0.1s' }}>
+          <p className="animate-fade-in-up mt-6 max-w-xl text-base text-neutral-400 sm:text-lg" style={{ animationDelay: '0.1s' }}>
             Growth trends, content calendars, revenue estimates and SEO insights for any TikTok
             account — plus niche discovery and bulk scanning for research at scale. All from real,
             live TikTok data.
@@ -137,20 +163,20 @@ export default async function LandingPage() {
           <div className="animate-fade-in-up mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row" style={{ animationDelay: '0.15s' }}>
             <Link
               href="/login"
-              className="btn-sheen animate-glow-pulse flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-tiktok-cyan to-tiktok-pink px-7 py-4 font-semibold text-white shadow-xl shadow-tiktok-pink/30 transition hover:scale-[1.02] hover:opacity-95"
+              className="btn-sheen flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-tiktok-cyan to-tiktok-pink px-7 py-4 font-semibold text-white shadow-xl shadow-tiktok-pink/20 transition hover:scale-[1.02] hover:opacity-95"
             >
               Start free — try 2 profile scans
               <ArrowRight size={18} />
             </Link>
             <Link
               href="#pricing"
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/10"
+              className="flex items-center justify-center gap-2 rounded-xl border border-white/15 px-7 py-4 font-semibold text-white transition hover:bg-white/5"
             >
               See pricing
             </Link>
           </div>
 
-          <div className="animate-fade-in-up mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-400" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-fade-in-up mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-500" style={{ animationDelay: '0.2s' }}>
             <span>9 tools in one dashboard</span>
             <span className="hidden sm:inline">·</span>
             <span>Real TikTok data, not estimates</span>
@@ -195,15 +221,39 @@ export default async function LandingPage() {
             juggling spreadsheets and a dozen open tabs.
           </p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map(({ icon: Icon, title, desc }, i) => (
-            <Reveal key={title} delay={Math.min(i * 0.05, 0.3)}>
-              <div className="card group flex h-full flex-col gap-3 p-5 transition hover:-translate-y-1 hover:shadow-lg">
+        {/* Bento grid, not a uniform card wall — the Creator Score gets the
+            big cell since it's the thing every other tool feeds into, Niche
+            Finder gets a wide cell as the other "do a lot in one pass"
+            feature, everything else is a standard cell. grid-flow-dense
+            lets the smaller cells backfill around them automatically. */}
+        <div className="mt-10 grid auto-rows-[minmax(11rem,auto)] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map(({ icon: Icon, title, desc, size, stat }, i) => (
+            <Reveal
+              key={title}
+              delay={Math.min(i * 0.04, 0.3)}
+              className={clsx(
+                size === 'lg' && 'sm:col-span-2 sm:row-span-2',
+                size === 'wide' && 'sm:col-span-2'
+              )}
+            >
+              <div
+                className={clsx(
+                  'card group relative flex h-full flex-col gap-3 overflow-hidden p-5 transition hover:-translate-y-0.5 hover:shadow-lg',
+                  size === 'lg' && 'justify-between bg-gradient-to-br from-tiktok-cyan/[0.07] to-tiktok-pink/[0.07] p-6'
+                )}
+              >
+                {size === 'lg' && stat && (
+                  <span className="gradient-text absolute -right-2 -top-4 text-8xl font-extrabold opacity-[0.08]">{stat}</span>
+                )}
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-tiktok-cyan/15 to-tiktok-pink/15 transition group-hover:from-tiktok-cyan/30 group-hover:to-tiktok-pink/30">
                   <Icon size={19} className="text-tiktok-pink" />
                 </div>
-                <h3 className="font-semibold">{title}</h3>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400">{desc}</p>
+                <div className="relative">
+                  <h3 className={clsx('font-semibold', size === 'lg' && 'text-lg')}>{title}</h3>
+                  <p className={clsx('mt-1.5 text-sm text-neutral-500 dark:text-neutral-400', size === 'lg' && 'max-w-sm text-[0.95rem]')}>
+                    {desc}
+                  </p>
+                </div>
               </div>
             </Reveal>
           ))}
