@@ -288,6 +288,65 @@ create table if not exists public.subscriptions (
 );
 
 -- ---------------------------------------------------------------------------
+-- Editorial content — admin-authored guides/blog posts, published from
+-- /admin/content and served publicly at /guides/<slug> once published.
+-- Same public-read-if-published / admin-only-write shape as `plans` above.
+-- `type` is for the admin list filter only — both types publish under the
+-- same /guides/ URL namespace (see docs/TECHNICAL_AUDIT.md §6.1: avoids
+-- the "same article under two different URLs" duplicate-content risk a
+-- separate /blog/ namespace would introduce until that's actually needed).
+-- ---------------------------------------------------------------------------
+
+create table if not exists public.content (
+  id uuid primary key default gen_random_uuid(),
+  type text not null default 'guide' check (type in ('guide', 'blog', 'faq')),
+  title text not null,
+  slug text not null,
+  locale text not null default 'en',
+  excerpt text not null default '',
+  body text not null default '', -- Markdown, rendered client-side via react-markdown (no raw HTML)
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  author_id uuid references auth.users(id),
+  author_name text not null default '',
+  cover_image_url text,
+  cover_image_alt text,
+  seo_title text,
+  seo_description text,
+  tags text[] not null default '{}',
+  published_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create unique index if not exists content_slug_locale_idx on public.content (slug, locale);
+create index if not exists content_status_idx on public.content (status, type, published_at desc);
+
+alter table public.content enable row level security;
+drop policy if exists "anyone can read published content" on public.content;
+create policy "anyone can read published content" on public.content for select using (status = 'published' or public.is_admin());
+drop policy if exists "only admins insert content" on public.content;
+create policy "only admins insert content" on public.content for insert with check (public.is_admin());
+drop policy if exists "only admins update content" on public.content;
+create policy "only admins update content" on public.content for update using (public.is_admin());
+drop policy if exists "only admins delete content" on public.content;
+create policy "only admins delete content" on public.content for delete using (public.is_admin());
+
+-- Permanent redirects for published slugs that changed — checked by the
+-- public /guides/[slug] page when a slug isn't found as live content, so
+-- an old shared/indexed URL 301s to the new one instead of 404ing.
+create table if not exists public.content_redirects (
+  from_slug text not null,
+  locale text not null default 'en',
+  to_slug text not null,
+  created_at timestamptz not null default now(),
+  primary key (from_slug, locale)
+);
+alter table public.content_redirects enable row level security;
+drop policy if exists "anyone can read redirects" on public.content_redirects;
+create policy "anyone can read redirects" on public.content_redirects for select using (true);
+drop policy if exists "only admins manage redirects" on public.content_redirects;
+create policy "only admins manage redirects" on public.content_redirects for all using (public.is_admin()) with check (public.is_admin());
+
+-- ---------------------------------------------------------------------------
 -- App-wide config — single-row table for admin-toggleable platform
 -- settings, e.g. whether the payment gateway is active.
 -- ---------------------------------------------------------------------------

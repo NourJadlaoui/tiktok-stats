@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
-import { AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { AlertTriangle, FileText, ArrowRight } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import AdminUsersList from '@/components/AdminUsersList';
@@ -47,6 +48,23 @@ export default async function AdminPage() {
       <div className="mt-10">
         <h2 className="mb-3 text-lg font-semibold">Plans &amp; billing</h2>
         <PlansManager />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="mb-3 text-lg font-semibold">Content</h2>
+        <Link
+          href="/admin/content"
+          className="card flex items-center gap-3 p-4 transition hover:border-tiktok-pink"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-tiktok-cyan/15 to-tiktok-pink/15">
+            <FileText size={18} className="text-tiktok-pink" />
+          </div>
+          <div className="flex-1">
+            <p className="font-semibold">Guides &amp; blog</p>
+            <p className="text-xs text-neutral-400">Write, preview and publish editorial content at /guides/&lt;slug&gt;</p>
+          </div>
+          <ArrowRight size={16} className="text-neutral-400" />
+        </Link>
       </div>
     </div>
   );

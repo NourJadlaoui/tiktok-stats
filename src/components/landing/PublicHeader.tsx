@@ -18,6 +18,9 @@ export default function PublicHeader() {
         <Link href="/free-tools" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
           Free Tools
         </Link>
+        <Link href="/guides" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
+          Guides
+        </Link>
         <Link href="/#pricing" className="hidden text-sm font-medium text-neutral-300 hover:text-white sm:block">
           Pricing
         </Link>

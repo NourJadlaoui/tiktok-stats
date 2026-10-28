@@ -11,6 +11,7 @@ export default function PublicFooter() {
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-400">
           <Link href="/#features" className="hover:text-white">Features</Link>
           <Link href="/free-tools" className="hover:text-white">Free Tools</Link>
+          <Link href="/guides" className="hover:text-white">Guides</Link>
           <Link href="/#pricing" className="hover:text-white">Pricing</Link>
           <Link href="/#faq" className="hover:text-white">FAQ</Link>
           <Link href="/login" className="hover:text-white">Sign in</Link>
