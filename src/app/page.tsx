@@ -22,6 +22,8 @@ import LandingPricing from '@/components/landing/LandingPricing';
 import Faq from '@/components/landing/Faq';
 import Reveal from '@/components/landing/Reveal';
 import Marquee from '@/components/landing/Marquee';
+import PublicHeader from '@/components/landing/PublicHeader';
+import PublicFooter from '@/components/landing/PublicFooter';
 
 export const metadata: Metadata = {
   title: 'NicheTok.io — TikTok Analytics & Creator Growth Dashboard',
@@ -104,29 +106,7 @@ export default async function LandingPage() {
 
   return (
     <div className="relative left-1/2 right-1/2 -mx-[50vw] -mt-6 w-screen flex flex-col overflow-x-hidden">
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-neutral-950/80 px-4 py-3 text-white backdrop-blur sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 text-lg font-bold">
-          <span className="gradient-text">NicheTok</span>
-          <span>.io</span>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="#features" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
-            Features
-          </Link>
-          <Link href="#pricing" className="hidden text-sm font-medium text-neutral-300 hover:text-white sm:block">
-            Pricing
-          </Link>
-          <Link href="#faq" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
-            FAQ
-          </Link>
-          <Link
-            href="/login"
-            className="btn-sheen rounded-lg bg-gradient-to-r from-tiktok-cyan to-tiktok-pink px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 sm:px-4"
-          >
-            Sign in
-          </Link>
-        </div>
-      </header>
+      <PublicHeader />
 
       {/* Hero — bold dark aurora background */}
       <section className="relative overflow-hidden bg-neutral-950 px-4 pb-0 pt-14 text-white sm:px-6 sm:pt-20 lg:px-8">
@@ -328,24 +308,7 @@ export default async function LandingPage() {
         </Reveal>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 bg-neutral-950 px-4 py-10 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="flex items-center gap-2 text-sm font-bold">
-            <span className="gradient-text">NicheTok</span>
-            <span>.io</span>
-          </div>
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-400">
-            <Link href="#features" className="hover:text-white">Features</Link>
-            <Link href="#pricing" className="hover:text-white">Pricing</Link>
-            <Link href="#faq" className="hover:text-white">FAQ</Link>
-            <Link href="/login" className="hover:text-white">Sign in</Link>
-          </nav>
-          <p className="text-xs text-neutral-500">
-            © {new Date().getFullYear()} NicheTok.io. Not affiliated with TikTok Inc.
-          </p>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
