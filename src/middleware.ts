@@ -1,11 +1,18 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhooks/'];
-/** Only the exact root path is public (the marketing landing page) — every
- * other route needs a startsWith prefix match above, since `/` itself would
- * match everything via startsWith. */
-const PUBLIC_EXACT_PATHS = ['/'];
+// /free-tools and /guides are the public, no-login-required marketing
+// surface (Free Tools calculators, published guides) — every route
+// beneath each prefix (e.g. /guides/some-slug) must stay reachable
+// signed out, which is exactly what a prefix match gives here.
+const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhooks/', '/free-tools', '/guides'];
+/** Exact-match-only public paths — anything that would wrongly swallow
+ * unrelated routes under a prefix match (`/` would match everything) or
+ * that a crawler/bot needs with no session cookie at all: the landing
+ * page, and the metadata routes search engines fetch unauthenticated
+ * (robots.txt, sitemap.xml, the favicon/OG image Next.js serves from
+ * icon.tsx/opengraph-image.tsx). */
+const PUBLIC_EXACT_PATHS = ['/', '/robots.txt', '/sitemap.xml', '/icon', '/opengraph-image'];
 
 /** Gates the actual product behind Google sign-in — everything under /app
  * and the other tool routes require auth, while `/` (the marketing landing

@@ -6,7 +6,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // /login is intentionally not listed here — it's not a content page
   // worth ranking (see docs/TECHNICAL_AUDIT.md §8), and now carries its
   // own noindex via login/layout.tsx instead.
-  const guides = await listPublishedContent();
+  // A Supabase hiccup here must not take the ENTIRE sitemap down with it —
+  // that would stop the static pages below from being (re)indexed too, for
+  // a reason that has nothing to do with them. Degrade to "no guides listed
+  // this time" instead of a 500; the next crawl picks them up once the
+  // database is reachable again.
+  let guides: Awaited<ReturnType<typeof listPublishedContent>> = [];
+  try {
+    guides = await listPublishedContent();
+  } catch (err) {
+    console.error('[sitemap] could not list published guides — omitting them from this build', err);
+  }
 
   return [
     { url: `${base}/`, changeFrequency: 'weekly', priority: 1 },
