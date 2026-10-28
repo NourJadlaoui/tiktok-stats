@@ -53,7 +53,7 @@ export default function SimilarCreators({ username }: { username: string }) {
           : 'Scans real TikTok search results for this channel’s top topic and shows other creators posting about it.'}
       </p>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       {profiles && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">

@@ -15,7 +15,7 @@ function scoreTextColor(value: number): string {
   if (value >= 75) return 'text-emerald-600 dark:text-emerald-400';
   if (value >= 55) return 'text-cyan-600 dark:text-cyan-400';
   if (value >= 35) return 'text-amber-600 dark:text-amber-400';
-  return 'text-red-500';
+  return 'text-red-600 dark:text-red-400';
 }
 
 export interface ScoreItem {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { loadChannelData, getChannelTracking } from '@/lib/channel';
 import { ChannelNotFoundError, ScrapeBlockedError } from '@/lib/dataProviders';
@@ -9,6 +10,14 @@ import ProfileHeader from '@/components/ProfileHeader';
 import DashboardTabs from '@/components/DashboardTabs';
 import UpgradeModal from '@/components/UpgradeModal';
 import { ChannelDataProvider } from '@/components/dashboard/ChannelDataContext';
+
+// Private, per-account data — never worth ranking, and ranking someone
+// else's scanned profile under this app's URL would be a real privacy
+// concern besides. Auth (requireEffectiveUser()/loadChannelData above) is
+// the real access control; this noindex is the SEO-side complement.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false }
+};
 
 export default async function DashboardLayout({
   children,

@@ -1,4 +1,4 @@
--- TikTok Stats — Supabase schema
+-- NicheTok.io — Supabase schema
 --
 -- Run this once in your Supabase project's SQL editor (Dashboard -> SQL Editor -> New query),
 -- after creating the project and before signing in to the app for the first time.

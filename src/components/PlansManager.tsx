@@ -92,7 +92,7 @@ export default function PlansManager() {
     }
   }
 
-  if (error && !plans) return <p className="text-sm text-red-500">{error}</p>;
+  if (error && !plans) return <p className="text-sm text-red-600 dark:text-red-400">{error}</p>;
   if (!plans) return <p className="text-sm text-neutral-400">Loading…</p>;
 
   return (
@@ -109,7 +109,7 @@ export default function PlansManager() {
           disabled={togglingPayments}
           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold ${
             paymentsEnabled
-              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
               : 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400'
           }`}
         >
@@ -118,7 +118,7 @@ export default function PlansManager() {
         </button>
       </div>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse text-sm">

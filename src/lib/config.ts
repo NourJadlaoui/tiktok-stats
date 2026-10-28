@@ -29,6 +29,11 @@ export interface AppConfig {
   /** Approximate USD->EUR conversion rate used only for the small "≈ €X" hover tooltip on money
    * figures — not a live feed, just a manually-set approximation editable from Settings. */
   usdToEurRate: number;
+  /** Set when dataProvider=rapidapi was requested but silently downgraded to the
+   * built-in scraper (no RAPIDAPI_KEY configured) — surfaced in the admin
+   * dashboard (not just a server log line) so this never goes unnoticed in
+   * production. See the NicheTok.io audit, §4 "Fallback silencieux". */
+  providerFallback?: { requested: DataProviderName; reason: string };
 }
 
 const DEFAULTS: AppConfig = {
@@ -125,9 +130,14 @@ export function getConfig(): AppConfig {
   };
 
   // If rapidapi was requested but no key is configured, fall back to the free
-  // scraping provider instead of hard-failing every request.
+  // scraping provider instead of hard-failing every request. This is
+  // recorded on the config object (not just logged) so it surfaces in the
+  // admin dashboard — an operator who believes RapidAPI is active should
+  // never have to go read server logs to find out it isn't.
   if (merged.dataProvider === 'rapidapi' && !merged.rapidApi.key) {
-    console.warn('[config] dataProvider=rapidapi but no RAPIDAPI_KEY configured — falling back to the built-in TikTok scraper.');
+    const reason = 'dataProvider=rapidapi but no RAPIDAPI_KEY configured';
+    console.warn(`[config] ${reason} — falling back to the built-in TikTok scraper.`);
+    merged.providerFallback = { requested: 'rapidapi', reason };
     merged.dataProvider = 'tiktok';
   }
 

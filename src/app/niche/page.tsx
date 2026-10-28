@@ -118,7 +118,7 @@ function NichePageInner() {
         <select
           value={maxVideos}
           onChange={(e) => setMaxVideos(Number(e.target.value))}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1 text-xs text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           {[200, 500, 1000].map((n) => (
             <option key={n} value={n}>
@@ -129,7 +129,7 @@ function NichePageInner() {
         (more = better coverage, slower)
       </label>
 
-      {error && <p className="mt-4 max-w-md text-center text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-4 max-w-md text-center text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       {result && (
         <div className="mt-10 flex w-full max-w-6xl flex-col gap-6">

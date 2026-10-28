@@ -9,13 +9,13 @@ import { getUsageCountThisMonth, getUsageCountLifetime, UsageEventType } from '@
 const USAGE_EVENT_TYPES: UsageEventType[] = ['profile_scan', 'niche_search', 'niche_finder_term', 'bulk_scan_item'];
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
-const title = 'TikTok Stats — TikTok Analytics & Creator Growth Dashboard';
+const title = 'NicheTok.io — TikTok Analytics & Creator Growth Dashboard';
 const description =
   "Track any TikTok creator's growth, content calendar, revenue estimates and SEO insights. Discover trending niches, bulk-scan hundreds of profiles, and grow smarter — free to start.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: title, template: '%s — TikTok Stats' },
+  title: { default: title, template: '%s — NicheTok.io' },
   description,
   keywords: [
     'TikTok analytics',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: siteUrl,
-    siteName: 'TikTok Stats',
+    siteName: 'NicheTok.io',
     type: 'website'
   },
   twitter: {

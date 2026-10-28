@@ -55,7 +55,7 @@ export default function ScoringSettings() {
         its Overview tab — a profile only reads as truly winning when it&apos;s active AND clears both goals below.
       </p>
 
-      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
 
       {!thresholds ? (
         <p className="text-xs text-neutral-400">Loading…</p>

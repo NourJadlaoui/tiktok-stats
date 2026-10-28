@@ -29,6 +29,7 @@ export function nicheProgressKey(term: string): string {
 
 export async function searchTikTokByKeyword(
   termRaw: string,
+  ownerId: string,
   maxVideos: number
 ): Promise<{ profiles: NicheProfile[]; allVideos: TikTokVideo[]; videosScanned: number; isPartial: boolean }> {
   const term = termRaw.trim();
@@ -39,7 +40,7 @@ export async function searchTikTokByKeyword(
     if (scrapeDebug) console.log(`[tiktok-search:${term}]`, ...args);
   };
   const progressKey = nicheProgressKey(term);
-  setProgress(progressKey, { status: 'starting', fetched: 0, total: maxVideos });
+  setProgress(ownerId, progressKey, { status: 'starting', fetched: 0, total: maxVideos });
 
   let context: BrowserContext | undefined;
   let page: Page | undefined;
@@ -81,7 +82,7 @@ export async function searchTikTokByKeyword(
     await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
     if (await dismissCookieBanner(page)) log('dismissed cookie-consent banner');
 
-    setProgress(progressKey, { status: 'scraping', fetched: 0, total: maxVideos });
+    setProgress(ownerId, progressKey, { status: 'scraping', fetched: 0, total: maxVideos });
     await page.waitForTimeout(1200 + Math.random() * 800);
 
     await scrollToCollect(page, {
@@ -89,7 +90,7 @@ export async function searchTikTokByKeyword(
       maxCount: maxVideos,
       hasMore: () => hasMore,
       onProgress: (count) => {
-        setProgress(progressKey, { status: 'scraping', fetched: count, total: maxVideos });
+        setProgress(ownerId, progressKey, { status: 'scraping', fetched: count, total: maxVideos });
         log(`scrolled: ${count} / ${maxVideos} videos scanned so far`);
       },
       onStall: (rounds) => {
@@ -125,11 +126,11 @@ export async function searchTikTokByKeyword(
 
     await saveSessionState(context);
 
-    setProgress(progressKey, { status: 'done', fetched: items.size, total: maxVideos });
+    setProgress(ownerId, progressKey, { status: 'done', fetched: items.size, total: maxVideos });
     return { profiles, allVideos, videosScanned: items.size, isPartial };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    setProgress(progressKey, { status: 'error', message });
+    setProgress(ownerId, progressKey, { status: 'error', message });
     if (err instanceof ScrapeBlockedError) throw err;
     throw new ScrapeBlockedError(message);
   } finally {

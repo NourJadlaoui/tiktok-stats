@@ -56,9 +56,10 @@ export default function AccountsTable({ accounts, categories }: { accounts: Gall
         </div>
         {categories.length > 0 && (
           <select
+            aria-label="Filter by category"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
           >
             <option value="">Any category</option>
             {categories.map((c) => (
@@ -69,9 +70,10 @@ export default function AccountsTable({ accounts, categories }: { accounts: Gall
           </select>
         )}
         <select
+          aria-label="Filter by minimum My Score"
           value={minMyScore}
           onChange={(e) => setMinMyScore(Number(e.target.value))}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           <option value={0}>Any My Score</option>
           {[9, 8, 7, 6, 5, 4, 3, 2, 1].map((n) => (

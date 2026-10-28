@@ -275,7 +275,7 @@ export function generateMockChannel(usernameRaw: string): FetchResult {
 
 export const mockProvider: DataProvider = {
   name: 'mock',
-  async fetchChannel(username: string, maxVideosOverride?: number) {
+  async fetchChannel(username: string, _ownerId: string, maxVideosOverride?: number) {
     // simulate network latency for a realistic loading state
     await new Promise((r) => setTimeout(r, 250));
     const result = generateMockChannel(username);

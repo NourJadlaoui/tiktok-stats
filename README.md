@@ -1,4 +1,4 @@
-# TikTok Stats
+# NicheTok.io
 
 A full, responsive, **commercial-ready** analytics SaaS for TikTok — a public marketing landing page,
 a free trial + paid plans billed through Stripe, and a client dashboard behind Google sign-in, with

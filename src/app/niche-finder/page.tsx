@@ -162,7 +162,7 @@ export default function NicheFinderPage() {
             <select
               value={coverage}
               onChange={(e) => setCoverage(e.target.value as Coverage)}
-              className="rounded-lg border border-neutral-300 bg-white px-2 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+              className="rounded-lg border border-neutral-300 bg-white px-2 py-2 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
             >
               <option value="quick">Quick</option>
               <option value="standard">Standard</option>
@@ -176,7 +176,7 @@ export default function NicheFinderPage() {
             <select
               value={maxVideosPerNiche}
               onChange={(e) => setMaxVideosPerNiche(Number(e.target.value))}
-              className="rounded-lg border border-neutral-300 bg-white px-2 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+              className="rounded-lg border border-neutral-300 bg-white px-2 py-2 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
             >
               {[40, 60, 100, 150].map((n) => (
                 <option key={n} value={n}>
@@ -202,7 +202,7 @@ export default function NicheFinderPage() {
         </p>
       </div>
 
-      {error && <p className="mt-4 max-w-md text-center text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-4 max-w-md text-center text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       {run && (
         <div className="mt-10 flex w-full max-w-6xl flex-col gap-4">

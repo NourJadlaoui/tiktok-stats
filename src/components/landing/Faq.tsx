@@ -22,7 +22,7 @@ const ITEMS = [
   },
   {
     q: 'Do I need a TikTok account to use this?',
-    a: 'No — everything works from public profile pages, no TikTok login required. You only need a Google account to sign in to TikTok Stats itself.'
+    a: 'No — everything works from public profile pages, no TikTok login required. You only need a Google account to sign in to NicheTok.io itself.'
   },
   {
     q: 'Can I cancel anytime?',

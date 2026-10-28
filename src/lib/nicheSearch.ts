@@ -48,7 +48,7 @@ export async function getNicheSearchResult(
 
   const { profiles, allVideos, videosScanned, isPartial } = isMock
     ? await Promise.resolve(generateMockNicheSearch(term, maxVideos))
-    : await searchTikTokByKeyword(term, maxVideos);
+    : await searchTikTokByKeyword(term, effectiveUserId, maxVideos);
 
   const provider: DataProviderName = isMock ? 'mock' : 'tiktok';
 

@@ -17,7 +17,7 @@ export default function Icon() {
           background: 'linear-gradient(135deg, #25F4EE, #FE2C55)'
         }}
       >
-        <span style={{ color: 'white', fontSize: 20, fontWeight: 800, fontFamily: 'sans-serif' }}>T</span>
+        <span style={{ color: 'white', fontSize: 20, fontWeight: 800, fontFamily: 'sans-serif' }}>N</span>
       </div>
     ),
     { ...size }

@@ -50,7 +50,7 @@ export default function CategoryManager() {
         filter the Accounts and Tracked pages. Deleting one here removes it from every creator it&apos;s assigned to.
       </p>
 
-      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
 
       {!categories ? (
         <p className="text-xs text-neutral-400">Loading…</p>
@@ -66,7 +66,7 @@ export default function CategoryManager() {
               className="flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
             >
               {c}
-              <button onClick={() => deleteCat(c)} className="text-neutral-400 hover:text-red-500">
+              <button onClick={() => deleteCat(c)} className="text-neutral-400 hover:text-red-600 dark:hover:text-red-400">
                 <Trash2 size={11} />
               </button>
             </span>

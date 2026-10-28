@@ -96,13 +96,14 @@ export default function NicheTermsManager() {
         point using an open-source translation API.
       </p>
 
-      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <select
+          aria-label="Language"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           {LANGUAGE_NAMES.map((l) => (
             <option key={l} value={l}>
@@ -152,7 +153,7 @@ export default function NicheTermsManager() {
                     <button onClick={() => startEdit(term)} className="text-neutral-400 hover:text-tiktok-pink" title="Edit">
                       <Pencil size={13} />
                     </button>
-                    <button onClick={() => handleDelete(term)} className="text-neutral-400 hover:text-red-500" title="Delete">
+                    <button onClick={() => handleDelete(term)} className="text-neutral-400 hover:text-red-600 dark:hover:text-red-400" title="Delete">
                       <Trash2 size={13} />
                     </button>
                   </div>

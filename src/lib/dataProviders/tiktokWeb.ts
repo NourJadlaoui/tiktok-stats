@@ -71,7 +71,7 @@ async function extractProfile(page: Page, username: string): Promise<TikTokProfi
 
 export const tiktokWebProvider: DataProvider = {
   name: 'tiktok',
-  async fetchChannel(usernameRaw: string, maxVideosOverride?: number) {
+  async fetchChannel(usernameRaw: string, ownerId: string, maxVideosOverride?: number) {
     const username = usernameRaw.trim().toLowerCase().replace(/^@/, '');
     const { maxVideosToFetch: configMax, scrapeDebug } = getConfig();
     const maxVideosToFetch = maxVideosOverride ? Math.min(configMax, maxVideosOverride) : configMax;
@@ -82,7 +82,7 @@ export const tiktokWebProvider: DataProvider = {
     let context: BrowserContext | undefined;
     let page: Page | undefined;
 
-    setProgress(username, { status: 'starting', fetched: 0, total: 0 });
+    setProgress(ownerId, username, { status: 'starting', fetched: 0, total: 0 });
 
     try {
       await getBrowser();
@@ -130,7 +130,7 @@ export const tiktokWebProvider: DataProvider = {
 
       const profile = await extractProfile(page, username);
       log('profile OK:', profile.displayName, `${profile.followers} followers, ${profile.videoCount} videos`);
-      setProgress(username, { status: 'scraping', fetched: items.size, total: profile.videoCount });
+      setProgress(ownerId, username, { status: 'scraping', fetched: items.size, total: profile.videoCount });
 
       await page.waitForTimeout(1200 + Math.random() * 800);
 
@@ -139,7 +139,7 @@ export const tiktokWebProvider: DataProvider = {
         maxCount: maxVideosToFetch,
         hasMore: () => apiSaysHasMore,
         onProgress: (count) => {
-          setProgress(username, { status: 'scraping', fetched: count, total: Math.max(profile.videoCount, count) });
+          setProgress(ownerId, username, { status: 'scraping', fetched: count, total: Math.max(profile.videoCount, count) });
           log(`scrolled: ${count} / ~${Math.min(maxVideosToFetch, profile.videoCount || maxVideosToFetch)} videos collected so far`);
         }
       });
@@ -174,15 +174,15 @@ export const tiktokWebProvider: DataProvider = {
 
       await saveSessionState(context);
 
-      setProgress(username, { status: 'done', fetched: videos.length, total: profile.videoCount });
+      setProgress(ownerId, username, { status: 'done', fetched: videos.length, total: profile.videoCount });
       return { profile, videos, provider: 'tiktok' as const, videosComplete };
     } catch (err) {
       if (err instanceof ChannelNotFoundError || err instanceof ScrapeBlockedError) {
-        setProgress(username, { status: 'error', message: err.message });
+        setProgress(ownerId, username, { status: 'error', message: err.message });
         throw err;
       }
       const message = err instanceof Error ? err.message : String(err);
-      setProgress(username, { status: 'error', message });
+      setProgress(ownerId, username, { status: 'error', message });
       throw new ScrapeBlockedError(message);
     } finally {
       await page?.close().catch(() => {});

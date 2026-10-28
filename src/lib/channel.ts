@@ -82,7 +82,7 @@ export const getChannelData = cache(async function getChannelData(
     }
 
     const sub = await getSubscriptionForUser(effectiveUserId);
-    const result = await getDataProvider().fetchChannel(username, sub?.plan.maxVideosPerProfile ?? undefined);
+    const result = await getDataProvider().fetchChannel(username, effectiveUserId, sub?.plan.maxVideosPerProfile ?? undefined);
     profile = result.profile;
     videos = result.videos;
     provider = result.provider;

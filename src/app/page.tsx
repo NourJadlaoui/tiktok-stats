@@ -24,7 +24,7 @@ import Reveal from '@/components/landing/Reveal';
 import Marquee from '@/components/landing/Marquee';
 
 export const metadata: Metadata = {
-  title: 'TikTok Stats — TikTok Analytics & Creator Growth Dashboard',
+  title: 'NicheTok.io — TikTok Analytics & Creator Growth Dashboard',
   description:
     'Track any TikTok creator\'s growth, content calendar, revenue estimates and SEO insights. Discover trending niches, bulk-scan hundreds of profiles, and grow smarter — free to start.',
   alternates: { canonical: '/' }
@@ -106,8 +106,8 @@ export default async function LandingPage() {
     <div className="relative left-1/2 right-1/2 -mx-[50vw] -mt-6 w-screen flex flex-col overflow-x-hidden">
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-neutral-950/80 px-4 py-3 text-white backdrop-blur sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 text-lg font-bold">
-          <span className="gradient-text">TikTok</span>
-          <span>Stats</span>
+          <span className="gradient-text">NicheTok</span>
+          <span>.io</span>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <Link href="#features" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
@@ -253,7 +253,7 @@ export default async function LandingPage() {
       {/* Why teams choose this */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold sm:text-3xl">Why creators &amp; agencies use TikTok Stats</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Why creators &amp; agencies use NicheTok.io</h2>
         </Reveal>
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
           {REASONS.map((r, i) => (
@@ -332,8 +332,8 @@ export default async function LandingPage() {
       <footer className="border-t border-white/10 bg-neutral-950 px-4 py-10 text-white sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2 text-sm font-bold">
-            <span className="gradient-text">TikTok</span>
-            <span>Stats</span>
+            <span className="gradient-text">NicheTok</span>
+            <span>.io</span>
           </div>
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-400">
             <Link href="#features" className="hover:text-white">Features</Link>
@@ -342,7 +342,7 @@ export default async function LandingPage() {
             <Link href="/login" className="hover:text-white">Sign in</Link>
           </nav>
           <p className="text-xs text-neutral-500">
-            © {new Date().getFullYear()} TikTok Stats. Not affiliated with TikTok Inc.
+            © {new Date().getFullYear()} NicheTok.io. Not affiliated with TikTok Inc.
           </p>
         </div>
       </footer>

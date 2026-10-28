@@ -34,7 +34,7 @@ async function rapidApiFetch(pathAndQuery: string) {
 
 export const rapidApiProvider: DataProvider = {
   name: 'rapidapi',
-  async fetchChannel(usernameRaw: string, maxVideosOverride?: number) {
+  async fetchChannel(usernameRaw: string, ownerId: string, maxVideosOverride?: number) {
     const username = usernameRaw.trim().toLowerCase().replace(/^@/, '');
     const { maxVideosToFetch: configMax } = getConfig();
     // Respecting a smaller plan-driven cap here (not just after the fact)
@@ -43,7 +43,7 @@ export const rapidApiProvider: DataProvider = {
     // discarding the extra afterward.
     const maxVideosToFetch = maxVideosOverride ? Math.min(configMax, maxVideosOverride) : configMax;
 
-    setProgress(username, { status: 'starting', fetched: 0, total: 0 });
+    setProgress(ownerId, username, { status: 'starting', fetched: 0, total: 0 });
 
     try {
       // A missing `data.user` here doesn't reliably mean the account
@@ -83,7 +83,7 @@ export const rapidApiProvider: DataProvider = {
       // and stop as soon as the profile's own reported video count is
       // reached so a small channel never pages past its real total.
       const total = Math.min(profile.videoCount || maxVideosToFetch, maxVideosToFetch);
-      setProgress(username, { status: 'scraping', fetched: 0, total });
+      setProgress(ownerId, username, { status: 'scraping', fetched: 0, total });
 
       const videos: TikTokVideo[] = [];
       let cursor = 0;
@@ -121,7 +121,7 @@ export const rapidApiProvider: DataProvider = {
           });
         }
 
-        setProgress(username, { status: 'scraping', fetched: videos.length, total: Math.max(total, videos.length) });
+        setProgress(ownerId, username, { status: 'scraping', fetched: videos.length, total: Math.max(total, videos.length) });
 
         hasMore = Boolean(page?.data?.hasMore ?? page?.hasMore) && items.length > 0;
         cursor = Number(page?.data?.cursor ?? cursor + items.length);
@@ -130,11 +130,11 @@ export const rapidApiProvider: DataProvider = {
 
       const videosComplete = !hasMore && (profile.videoCount === 0 || videos.length >= profile.videoCount);
 
-      setProgress(username, { status: 'done', fetched: videos.length, total: videos.length });
+      setProgress(ownerId, username, { status: 'done', fetched: videos.length, total: videos.length });
       return { profile, videos, provider: 'rapidapi' as const, videosComplete };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      setProgress(username, { status: 'error', message });
+      setProgress(ownerId, username, { status: 'error', message });
       throw err;
     }
   }

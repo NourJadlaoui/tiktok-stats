@@ -37,7 +37,7 @@ function Delta({ label, value }: { label: string; value: number | null }) {
   }
   const positive = value >= 0;
   return (
-    <span className={clsx('flex items-center gap-1', positive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500')}>
+    <span className={clsx('flex items-center gap-1', positive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400')}>
       {positive ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
       {label}: {positive ? '+' : ''}
       {value.toFixed(1)}%

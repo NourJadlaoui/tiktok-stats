@@ -76,9 +76,10 @@ export default function TrackedDashboard({ rows, eurRate }: { rows: TrackedCreat
       {categories.length > 0 && (
         <div className="flex items-center gap-2">
           <select
+            aria-label="Filter by category"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
           >
             <option value="">Any category</option>
             {categories.map((c) => (
@@ -175,9 +176,9 @@ export default function TrackedDashboard({ rows, eurRate }: { rows: TrackedCreat
                     {r.followerGrowthPct >= 0 ? (
                       <TrendingUp size={13} className="text-emerald-500" />
                     ) : (
-                      <TrendingDown size={13} className="text-red-500" />
+                      <TrendingDown size={13} className="text-red-600 dark:text-red-400" />
                     )}
-                    <span className={clsx('font-semibold', r.followerGrowthPct >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500')}>
+                    <span className={clsx('font-semibold', r.followerGrowthPct >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400')}>
                       {r.followerGrowthPct >= 0 ? '+' : ''}
                       {r.followerGrowthPct.toFixed(1)}% followers
                     </span>

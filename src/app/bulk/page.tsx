@@ -152,7 +152,7 @@ export default function BulkSearchPage() {
         </button>
       </div>
 
-      {error && <p className="mt-4 max-w-md text-center text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-4 max-w-md text-center text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       {job && (
         <div className="mt-10 w-full max-w-3xl">
@@ -164,14 +164,14 @@ export default function BulkSearchPage() {
               <div key={r.username} className="card flex items-center gap-2.5 p-2.5 text-sm">
                 {r.status === 'pending' && <Loader2 size={15} className="animate-spin text-neutral-400" />}
                 {r.status === 'done' && <CheckCircle2 size={15} className="text-emerald-500" />}
-                {r.status === 'error' && <XCircle size={15} className="text-red-500" />}
+                {r.status === 'error' && <XCircle size={15} className="text-red-600 dark:text-red-400" />}
                 <span className="font-medium">@{r.username}</span>
                 {r.status === 'done' && (
                   <Link href={`/dashboard/${r.username}/overview`} className="ml-auto text-xs font-medium text-tiktok-pink hover:underline">
                     View dashboard
                   </Link>
                 )}
-                {r.status === 'error' && <span className="ml-auto text-xs text-red-500">{r.error}</span>}
+                {r.status === 'error' && <span className="ml-auto text-xs text-red-600 dark:text-red-400">{r.error}</span>}
               </div>
             ))}
           </div>

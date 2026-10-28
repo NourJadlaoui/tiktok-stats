@@ -209,13 +209,14 @@ export default function CalendarView({
         </div>
 
         <select
+          aria-label="Filter by year"
           value={selectedYear === 'all' ? 'all' : String(selectedYear)}
           onChange={(e) => {
             setSelectedYear(e.target.value === 'all' ? 'all' : Number(e.target.value));
             setSelectedMonthKey(null);
             setVisibleCount(PAGE_SIZE);
           }}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           <option value="all">All years</option>
           {years.map((y) => (
@@ -224,12 +225,13 @@ export default function CalendarView({
         </select>
 
         <select
+          aria-label="Filter by hashtag"
           value={hashtagFilter}
           onChange={(e) => {
             setHashtagFilter(e.target.value);
             setVisibleCount(PAGE_SIZE);
           }}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           <option value="">Any hashtag</option>
           {allHashtags.map((h) => (
@@ -252,9 +254,10 @@ export default function CalendarView({
         <div className="flex items-center gap-1.5">
           <ArrowUpDown size={14} className="text-neutral-400" />
           <select
+            aria-label="Sort videos"
             value={sortMode}
             onChange={(e) => setSortMode(e.target.value as SortMode)}
-            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+            className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
           >
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>

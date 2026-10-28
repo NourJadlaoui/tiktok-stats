@@ -181,7 +181,7 @@ export default function SettingsPage() {
               <button
                 onClick={clearSession}
                 disabled={clearing}
-                className="mt-3 flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 text-xs font-medium text-neutral-600 transition hover:border-red-400 hover:text-red-500 disabled:opacity-50 dark:border-neutral-700 dark:text-neutral-300"
+                className="mt-3 flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 text-xs font-medium text-neutral-600 transition hover:border-red-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 dark:border-neutral-700 dark:text-neutral-300"
               >
                 {clearing ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
                 Clear saved session

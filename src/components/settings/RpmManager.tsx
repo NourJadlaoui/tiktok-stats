@@ -76,7 +76,7 @@ export default function RpmManager() {
         niches, or edit/delete these defaults.
       </p>
 
-      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
 
       {!rpm ? (
         <p className="text-xs text-neutral-400">Loading…</p>
@@ -114,7 +114,7 @@ export default function RpmManager() {
                       <Pencil size={13} />
                     </button>
                     {niche !== 'default' && (
-                      <button onClick={() => handleDelete(niche)} className="text-neutral-400 hover:text-red-500" title="Delete">
+                      <button onClick={() => handleDelete(niche)} className="text-neutral-400 hover:text-red-600 dark:hover:text-red-400" title="Delete">
                         <Trash2 size={13} />
                       </button>
                     )}

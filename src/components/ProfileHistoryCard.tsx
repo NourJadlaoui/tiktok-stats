@@ -82,9 +82,10 @@ export default function ProfileHistoryCard({ history }: { history: ProfileHistor
           </p>
         </div>
         <select
+          aria-label="Metric to display"
           value={metric}
           onChange={(e) => setMetric(e.target.value as Metric)}
-          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+          className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         >
           {METRICS.map((m) => (
             <option key={m.key} value={m.key}>
@@ -98,7 +99,7 @@ export default function ProfileHistoryCard({ history }: { history: ProfileHistor
         {delta >= 0 ? (
           <TrendingUp size={15} className="text-emerald-500" />
         ) : (
-          <TrendingDown size={15} className="text-red-500" />
+          <TrendingDown size={15} className="text-red-600 dark:text-red-400" />
         )}
         <span className="font-semibold">
           {delta >= 0 ? '+' : ''}

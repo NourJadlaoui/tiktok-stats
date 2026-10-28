@@ -137,8 +137,8 @@ export default function TopNav({ name, email, avatarUrl, isAdmin, planName, usag
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/80">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/app" className="flex items-center gap-2 text-lg font-bold">
-          <span className="gradient-text">TikTok</span>
-          <span>Stats</span>
+          <span className="gradient-text">NicheTok</span>
+          <span>.io</span>
         </Link>
 
         <nav className="flex flex-1 flex-wrap items-center gap-1 px-2">

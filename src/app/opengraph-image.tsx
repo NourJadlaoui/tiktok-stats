@@ -20,9 +20,9 @@ export default function OpengraphImage() {
       >
         <div style={{ display: 'flex', fontSize: 72, fontWeight: 800, color: 'white' }}>
           <span style={{ background: 'linear-gradient(90deg, #25F4EE, #FE2C55)', backgroundClip: 'text', color: 'transparent' }}>
-            TikTok
+            NicheTok
           </span>
-          <span style={{ marginLeft: 16 }}>Stats</span>
+          <span style={{ marginLeft: 16 }}>.io</span>
         </div>
         <div style={{ display: 'flex', marginTop: 24, fontSize: 30, color: '#a3a3a3' }}>
           TikTok analytics &amp; creator growth dashboard

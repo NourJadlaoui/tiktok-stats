@@ -64,7 +64,7 @@ export default function SyncCurrencySettings() {
         &quot;≈ €X&quot; hover tooltip on money figures.
       </p>
 
-      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1 text-xs font-medium text-neutral-500">
@@ -75,7 +75,7 @@ export default function SyncCurrencySettings() {
             <select
               value={syncIntervalHours}
               onChange={(e) => setSyncIntervalHours(Number(e.target.value))}
-              className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+              className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
             >
               {SYNC_OPTIONS.map((h) => (
                 <option key={h} value={h}>
@@ -98,7 +98,7 @@ export default function SyncCurrencySettings() {
               min={0}
               value={usdToEurRate}
               onChange={(e) => setUsdToEurRate(Number(e.target.value))}
-              className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+              className="rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
             />
           )}
         </label>

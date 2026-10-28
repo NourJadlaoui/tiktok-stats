@@ -37,7 +37,7 @@ export default function AdminEmailsManager({ initial }: { initial: string[] }) {
         {emails.map((e) => (
           <div key={e} className="flex items-center justify-between rounded-lg bg-neutral-50 px-3 py-1.5 text-sm dark:bg-neutral-800/60">
             <span>{e}</span>
-            <button onClick={() => remove(e)} className="text-neutral-400 hover:text-red-500"><Trash2 size={13} /></button>
+            <button onClick={() => remove(e)} className="text-neutral-400 hover:text-red-600 dark:hover:text-red-400"><Trash2 size={13} /></button>
           </div>
         ))}
       </div>
