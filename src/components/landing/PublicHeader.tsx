@@ -24,7 +24,7 @@ export default function PublicHeader() {
         <Link href="/#pricing" className="hidden text-sm font-medium text-neutral-300 hover:text-white sm:block">
           Pricing
         </Link>
-        <Link href="/#faq" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
+        <Link href="/faq" className="hidden text-sm font-medium text-neutral-300 hover:text-white md:block">
           FAQ
         </Link>
         <Link

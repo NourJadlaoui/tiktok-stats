@@ -13,7 +13,7 @@ export default function PublicFooter() {
           <Link href="/free-tools" className="hover:text-white">Free Tools</Link>
           <Link href="/guides" className="hover:text-white">Guides</Link>
           <Link href="/#pricing" className="hover:text-white">Pricing</Link>
-          <Link href="/#faq" className="hover:text-white">FAQ</Link>
+          <Link href="/faq" className="hover:text-white">FAQ</Link>
           <Link href="/login" className="hover:text-white">Sign in</Link>
         </nav>
         <p className="text-xs text-neutral-500">

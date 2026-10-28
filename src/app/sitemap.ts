@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/free-tools/engagement-rate-calculator`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/free-tools/money-calculator`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/guides`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${base}/faq`, changeFrequency: 'monthly', priority: 0.6 },
     ...guides.map((g) => ({
       url: `${base}/guides/${g.slug}`,
       // lastmod only reflects a real content change — see docs/TECHNICAL_AUDIT.md §6.3

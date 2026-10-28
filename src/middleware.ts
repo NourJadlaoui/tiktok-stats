@@ -1,11 +1,14 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-// /free-tools and /guides are the public, no-login-required marketing
-// surface (Free Tools calculators, published guides) — every route
-// beneath each prefix (e.g. /guides/some-slug) must stay reachable
-// signed out, which is exactly what a prefix match gives here.
-const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhooks/', '/free-tools', '/guides'];
+// /free-tools, /guides and /faq are the public, no-login-required
+// marketing surface (Free Tools calculators, published guides, FAQ) —
+// every route beneath each prefix (e.g. /guides/some-slug) must stay
+// reachable signed out, which is exactly what a prefix match gives here.
+// Adding a new public top-level route? It needs an entry here too, or it
+// 307s every signed-out visitor (and every crawler) straight to /login —
+// that's exactly the bug this comment is here to stop from recurring.
+const PUBLIC_PATHS = ['/login', '/auth/callback', '/api/webhooks/', '/free-tools', '/guides', '/faq'];
 /** Exact-match-only public paths — anything that would wrongly swallow
  * unrelated routes under a prefix match (`/` would match everything) or
  * that a crawler/bot needs with no session cookie at all: the landing

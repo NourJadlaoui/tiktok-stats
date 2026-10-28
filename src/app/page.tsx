@@ -283,6 +283,11 @@ export default async function LandingPage() {
           <Reveal className="mt-10" delay={0.1}>
             <Faq />
           </Reveal>
+          <Reveal className="mt-6 text-center" delay={0.15}>
+            <Link href="/faq" className="text-sm font-medium text-tiktok-pink hover:underline">
+              See all FAQs, including pricing &amp; billing →
+            </Link>
+          </Reveal>
         </div>
       </section>
 
